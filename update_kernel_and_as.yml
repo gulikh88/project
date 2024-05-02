@@ -1,0 +1,17 @@
+---
+- name: Update Kernel and OS
+  hosts: all
+  become: yes
+  tasks:
+    - name: Update package repositories
+      package:
+        name: '*'
+        state: latest
+      register: update_result
+
+    - name: Reboot if kernel updated
+      command: reboot
+      async: 0
+      poll: 0
+      ignore_errors: true
+      when: update_result.changed

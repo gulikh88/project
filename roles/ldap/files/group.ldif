@@ -1,0 +1,4 @@
+dn: cn=alpha,ou=groups,dc=ziyotek1,dc=local
+objectClass: top
+objectClass: posixGroup
+gidNumber: 5000

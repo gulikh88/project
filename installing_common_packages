@@ -1,0 +1,30 @@
+---
+- name: Install packages and restart services
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install packages
+      ansible.builtin.yum:
+        name:
+          - httpd
+          - httpd-tools
+          - net-tools
+          - vim
+          - bind
+          - bind-utils
+          - man
+          - man-pages
+          - mlocate
+          - sysstat
+        state: present
+
+    - name: Restart services
+      ansible.builtin.systemd:
+        name: "{{ item }}"
+        state: restarted
+      loop:
+        - httpd
+        - firewalld
+        - network
+        - sysstat

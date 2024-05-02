@@ -1,0 +1,18 @@
+---
+- name: Temporarily Enable SSH Root Login
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Update SSH Configuration to enable root login
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^PermitRootLogin no'
+        line: 'PermitRootLogin yes'
+      notify: Restart SSH Service
+
+  handlers:
+    - name: Restart SSH Service
+      systemd:
+        name: sshd
+        state: restarted

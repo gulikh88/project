@@ -1,0 +1,28 @@
+---
+- name: Install and Configure phpMyAdmin
+  hosts: db1
+  become: yes
+
+  tasks:
+    - name: Install EPEL repository
+      yum:
+        name: epel-release
+        state: present
+
+    - name: Install phpMyAdmin
+      yum:
+        name: phpMyAdmin
+        state: present
+
+    - name: Configure phpMyAdmin
+      lineinfile:
+        path: /etc/httpd/conf.d/phpMyAdmin.conf
+        line:  "Require all granted"
+        insertafter: "<Directory /usr/share/phpMyAdmin/>"
+        state: present
+
+    - name: Restart Apache service
+      systemd:
+        name: httpd
+        state: restarted
+

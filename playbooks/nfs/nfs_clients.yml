@@ -1,0 +1,48 @@
+---
+- name: Install and Configure NFS Client
+  hosts: nfs_clients
+  become: true
+
+  tasks:
+    - name: Install NFS client package
+      yum:
+        name:
+          - nfs-utils
+        state: present
+
+    - name: Enable and start services
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      with_items:
+        - rpcbind
+        - nfs-server
+        - nfs-lock
+        - nfs-idmap
+
+    - name: Create /clientshare directory
+      file:
+        path: /clientshare
+        state: directory
+        mode: '0755'
+
+    - name: mount the shared directory from the NFS server
+      shell: mount -t nfs nfs:/var/nfs/shared /clientshare
+      notify: Restart NFS
+
+    - name: Add entry to /etc/fstab
+      lineinfile:
+        path: /etc/fstab
+        regexp: '^nfs:/var/nfs/shared'
+        line: "nfs:/var/nfs/shared    /clientshare  nfs    rw,sync,hard,intr   0 0"
+
+    - name: mount
+      command: mount -a
+
+  handlers:
+    - name: Restart NFS
+      service:
+        name: nfs
+        state: restarted
+

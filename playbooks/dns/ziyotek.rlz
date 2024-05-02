@@ -1,0 +1,34 @@
+$TTL   1D
+@       IN      SOA     prdx-nsprimary101.ziyotek1.local. root.prdx-nsprimary101.ziyotek1.local. (
+                        2024270402      ; serial
+                        1D              ; refresh
+                        1H              ; retry
+                        1W              ; expire
+                        3H )            ; minimum
+
+; DNS servers 
+      IN      NS      prdx-nsprimary101.ziyotek1.local.
+      IN      NS      prdx-nsworker101.ziyotek1.local.
+
+; PTR records
+17      IN      PTR     prdx-nsprimary101.ziyotek1.local.
+18      IN      PTR     prdx-nsworker101.ziyotek1.local.
+
+15      IN      PTR     prdx-ntp101.ziyotek1.local.
+16      IN      PTR     prdx-ntp102.ziyotek1.local.
+20      IN      PTR     prdx-ftp101.ziyotek1.local.
+21      IN      PTR     prdx-nfs101.ziyotek1.local.
+22      IN      PTR     prdx-autofs101.ziyotek1.local.
+23      IN      PTR     prdx-db101.ziyotek1.local.
+24      IN      PTR     prdx-db102.ziyotek1.local.
+12      IN      PTR     prdx-ansible101.ziyotek1.local.
+25      IN      PTR     prdx-webserver101.ziyotek1.local.
+27      IN      PTR     prdx-webserver102.ziyotek1.local.
+29      IN      PTR     prdx-webserver103.ziyotek1.local.
+31      IN      PTR     prdx-haproxy101.ziyotek1.local.
+41      IN      PTR     prdx-haproxy111.ziyotek1.local.
+32      IN      PTR     prdx-nagios101.ziyotek1.local.
+46      IN      PTR     prdx-ldap101.ziyotek1.local.
+38      IN      PTR     prdx-dprimary101.ziyotek1.local.
+39      IN      PTR     prdx-dworker101.ziyotek1.local.
+40      IN      PTR     prdx-dworker102.ziyotek1.local.

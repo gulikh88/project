@@ -1,0 +1,41 @@
+
+---
+- hosts: database8
+  become: yes
+
+  tasks:
+  - name: install httpd
+    yum:
+      name: httpd
+      state: latest
+
+  - name: start and enable httpd
+    service:
+      name: httpd
+      enabled: yes
+      state: started
+
+  - name: add http to iptables
+    shell: iptables -I INPUT 1 -s 192.168.161.0/24 -p tcp -m state --state NEW -m tcp --dport 80 -j ACCEPT
+  - name: save
+    shell: service iptables save
+
+  - name: add mysql to iptables
+    shell: iptables -I INPUT 1 -s 192.168.161.0/24 -p tcp -m state --state NEW -m tcp --dport 3306 -j ACCEPT
+
+  - name: save 
+    shell: service iptables save 
+
+  - name: install myadmin php
+    yum:
+      name: [ 'epel-release', 'php', 'phpmyadmin' ]
+
+  - name: configure the myadmin config
+    template:
+      src: /ansible/playbooks/database/phpmyadmin8.j2
+      dest: /etc/httpd/conf.d/phpMyAdmin.conf
+
+  - name: restart htppd
+    service:
+      name: httpd
+      state: restarted

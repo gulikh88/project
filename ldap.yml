@@ -1,0 +1,7 @@
+---
+- name: ldap role
+  hosts: ldap
+  become: yes
+
+  roles:
+  - ldap

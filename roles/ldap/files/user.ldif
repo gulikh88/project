@@ -1,0 +1,16 @@
+dn: uid=nima,ou=users,dc=ziyotek1,dc=local
+objectClass: top
+objectClass: account
+objectClass: posixAccount
+objectClass: shadowAccount
+cn: nima ziyo
+uid: nima
+uidNumber: 10000
+gidNumber: 10000
+homeDirectory: /home/users/nima
+loginShell: /bin/bash
+gecos: nima,System Engineer
+userPassword: {crypt}x
+shadowLastChange: 0
+shadowMax: 0
+shadowWarning: 0

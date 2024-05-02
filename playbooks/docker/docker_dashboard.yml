@@ -1,0 +1,33 @@
+---
+- name: Install and Configure Portainer for Docker Dashboard
+  hosts: docker
+  become: yes
+
+  tasks:
+    - name: Create Portainer Data Directory
+      file:
+        path: /opt/portainer/data
+        state: directory
+
+    - name: Create Docker Compose File
+      template:
+        src: docker-compose.yml.j2
+        dest: /opt/portainer/docker-compose.yml
+
+    - name: Start Portainer
+      command: /usr/local/bin/docker-compose up -d
+      args:
+        chdir: /opt/portainer
+
+    - name: Run Docker command to start Portainer container
+      shell: |
+        docker run -d \
+          -p 9443:9443 \
+          --name portainer \
+          --restart unless-stopped \
+          -v data:/data \
+          -v /var/run/docker.sock:/var/run/docker.sock \
+          portainer/portainer-ce:latest
+
+  vars:
+    docker_compose_version: "1.25"  # Adjust as needed
